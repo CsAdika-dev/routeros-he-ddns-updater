@@ -15,8 +15,6 @@
 :local waninterfacev4 "" 
 # if enableIpv6 true
 :local waninterfacev6 "" 
-# if enableIpv6 true
-:local ipv6pool ""
 # required eg: https://dyn.dns.he.net/nic/update
 :local updateURL "https://dyn.dns.he.net/nic/update"
 # if enabledIpv4 true and mode = "nat"
@@ -89,7 +87,7 @@
                     :log error ("DDNS: Failed to send IPv4 update.")
                 } else {
                     :log info ("DDNS: Response from server: " . $result->"data")
-                    :if ([:find ($result->"data") "good"] = 0 || [:find ($result->"data") "nochg"] = 0) do={
+                    :if ([:find ($result->"data") "good"] <>= 0 || [:find ($result->"data") "nochg"] = 0) do={
                         :set ipv4ddns $ipv4fresh
                     }
                 }
