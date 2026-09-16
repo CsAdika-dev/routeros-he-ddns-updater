@@ -44,8 +44,11 @@ an update request.
    logs an informational message and stops.
 4. **Send the update** – when the address differs, a POST request is sent to the
    HE.net dynamic DNS endpoint with `hostname`, `password`, and the new IP.
-5. **Handle the response** – on a successful response the stored global variable
-   (`ipv4ddns`/`ipv6ddns`) is updated to the new address.
+5. **Handle the response** – on a successful response the script checks the returned
+   data for the keywords `good` or `nochg` using RouterOS's `[:find]` function.
+   The condition verifies that the keyword is present (`[:find ...] != -1`). If
+   either keyword is found, the stored global variable (`ipv4ddns`/`ipv6ddns`)
+   is updated to the new address.
 
 All steps contain error handling that logs warnings or errors to the RouterOS
 log, ensuring you can troubleshoot issues via the system log.
@@ -62,10 +65,29 @@ log, ensuring you can troubleshoot issues via the system log.
 4. **Schedule the script** with a scheduler entry, e.g. every 5 minutes:
 
    ```
-/system scheduler add name="HE‑DDNS" interval=5m on-event="/system script run update-he-dns"
+   /system scheduler add name="HE‑DDNS" interval=5m on-event="/system script run update-he-dns"
    ```
 
    Adjust the interval as needed.
+
+## Initialization script
+
+An **init‑env.rsc** script is provided to initialise the required global variables
+`ipv4ddns` and `ipv6ddns` before the main updater runs. It simply creates the
+globals with empty string values:
+
+```routeros
+/system script add name=init-env source="/system script run init-env.rsc"
+```
+
+You can schedule it to run at startup:
+
+```routeros
+/system schedule add name=init-env.rsc on-event=init-env.rsc start-time=startup interval=0
+```
+
+This ensures the updater has defined variables to compare against, avoiding
+undefined‑variable warnings.
 
 ---
 
