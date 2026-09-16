@@ -23,7 +23,6 @@ It can work in two different modes:
 | `waninterfacev4` | Interface name used when `ddnsMode = "interface"` for IPv4. |
 | `waninterfacev6` | Interface name used when `ddnsMode = "interface"` for IPv6. |
 | `ipv4URL` / `ipv4file` | URL and temporary file used when `ddnsMode = "nat"` for IPv4. |
-| `ipv6pool`   | (Optional) IPv6 address pool when using NAT‑style updates. |
 | `updateURL`  | The HE.net update endpoint – usually `https://dyn.dns.he.net/nic/update`. |
 
 The script expects the **global variables** `ipv4ddns` and `ipv6ddns` to be
