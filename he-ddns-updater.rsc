@@ -87,7 +87,7 @@
                     :log error ("DDNS: Failed to send IPv4 update.")
                 } else {
                     :log info ("DDNS: Response from server: " . $result->"data")
-                    :if ([:find ($result->"data") "good"] <>= 0 || [:find ($result->"data") "nochg"] = 0) do={
+                    :if ([:find ($result->"data") "good"] >= 0 || [:find ($result->"data") "nochg"] = 0) do={
                         :set ipv4ddns $ipv4fresh
                     }
                 }
