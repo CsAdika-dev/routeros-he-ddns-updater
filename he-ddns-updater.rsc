@@ -2,7 +2,7 @@
 :local enableIpv4 true
 :local enableIpv6 true
 
-# Mód: "nat" vagy "interface"
+# mode: "nat" or "interface"
 :local ddnsMode "interface"
 
 :global ipv4ddns
